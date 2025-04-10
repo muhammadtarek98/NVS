@@ -2,3 +2,6 @@ build/
 cmake-build-debug/
 cmake-build-release/
 .idea
+colmap/build/
+colmap/python/build/
+
