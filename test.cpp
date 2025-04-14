@@ -1,8 +1,6 @@
 #include<bits/stdc++.h>
-#include <colmap/base/reconstruction.h>
-#include <colmap/controllers/incremental_mapper.h>
-#include <colmap/feature/extraction.h>
-#include <colmap/util/misc.h>
+#include<colmap/estimators/pose.h>
+#include<opencv2/highgui.hpp>
 int main(){
     std::cout<<"build done ";
 

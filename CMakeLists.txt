@@ -1,34 +1,25 @@
 cmake_minimum_required(VERSION 3.10)
-
-# Set the CUDA compiler and architecture
-set(CMAKE_CUDA_COMPILER /usr/local/cuda-11.8/bin/nvcc)
-set(CMAKE_CUDA_ARCHITECTURES 75)
-
-project(NVS LANGUAGES C CXX CUDA)
-
-# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Define paths to dependencies
-set(Ceres_DIR "/home/muahmmad/ceres_install/lib/cmake/Ceres/")
-set(GTest_DIR "/home/muahmmad/ceres_install/lib/cmake/GTest/")
-set(Abseil_DIR "/home/muahmmad/ceres_install/lib/cmake/absl/")
-
-# Update CMAKE_PREFIX_PATH
-set(CMAKE_PREFIX_PATH "${Abseil_DIR};${GTest_DIR};${Ceres_DIR};${CMAKE_PREFIX_PATH}")
-
-# Find packages
-find_package(Abseil REQUIRED)
+set(CMAKE_CUDA_STANDARD 17)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_COMPILER /usr/local/cuda-11.8/bin/nvcc)
+project(NVS LANGUAGES C CXX CUDA)
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_75")
+set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 find_package(GTest REQUIRED)
-find_package(Ceres REQUIRED)
-
-# Add subdirectory
+find_package(Ceres REQUIRED PATHS "${CMAKE_PREFIX_PATH}")
+find_package(OpenCV REQUIRED PATHS "${CMAKE_PREFIX_PATH}")
+set(COLMAP_FORCE_BUNDLED_DEPS OFF CACHE BOOL "Use system dependencies" FORCE)
+set(COLMAP_CUDA_ENABLED ON CACHE BOOL "Enable CUDA support" FORCE)
+set(COLMAP_USE_SUITESPARSE ON CACHE BOOL "Use SuiteSparse" FORCE)
+set(COLMAP_USE_CERES_SOLVER ON CACHE BOOL "Use Ceres Solver" FORCE)
 add_subdirectory(colmap)
-
-# Add executable
-add_executable(NVS test.cpp)
-
-# Link libraries
-target_link_libraries(NVS PRIVATE colmap::colmap Ceres::ceres)
-target_link_directories(NVS PRIVATE )
+if(NOT TARGET uninstall)
+    add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
+add_executable(${PROJECT_NAME} test.cpp)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/colmap/src  ${CMAKE_CURRENT_SOURCE_DIR}/colmap/lib
+         ${Ceres_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ceres_lib/lib colmap ${OPENCV_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE colmap   Ceres::ceres absl::core_headers  GTest::gtest  ${OpenCV_LIBS})

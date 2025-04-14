@@ -1,0 +1,20 @@
+first build ceres with its all dependencies separetly with enabling cuda using that line
+cmake .. \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=/home/muahmmad/projects/NVS/ceres_lib \
+  -DCMAKE_CUDA_COMPILER=/usr/local/cuda-11.8/bin/nvcc \
+  -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 \
+  -DCUSTOM_BLAS=ON \
+  -DSUITESPARSE=ON \
+  -DLAPACK=ON \
+  -DEIGENSPARSE=ON \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DBUILD_EXAMPLES=ON \
+  -DBUILD_BENCHMARKS=ON \
+  -DBUILD_GMOCK=ON \
+  -DBUILD_TESTING=ON \
+  -DINSTALL_GTEST=ON \
+  -DABSL_ENABLE_INSTALL=ON
+
+then run configuration of the main project with the main CMakeLists.txt with that line
+-DCMAKE_PREFIX_PATH="./ceres_lib;opencv" -DCMAKE_VERBOSE_MAKEFILE=ON

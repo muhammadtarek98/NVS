@@ -5,3 +5,6 @@ cmake-build-release/
 colmap/build/
 colmap/python/build/
 
+/cmake-build-debug-event-trace/
+/ceres_lib/
+/pose_lib/
