@@ -1,4 +1,4 @@
--##first build ceres with its all dependencies separetly with enabling cuda using that line
+#first build ceres with its all dependencies separetly with enabling cuda using that line
 cmake .. \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=CERES_PATH \
