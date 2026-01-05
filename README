@@ -1,4 +1,4 @@
-first build ceres with its all dependencies separetly with enabling cuda using that line
+## first build ceres with its all dependencies separetly with enabling cuda using that line
 cmake .. \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=CERES_PATH \
@@ -16,5 +16,5 @@ cmake .. \
   -DINSTALL_GTEST=ON \
   -DABSL_ENABLE_INSTALL=ON
 
-then run configuration of the main project with the main CMakeLists.txt with that line
+#then run configuration of the main project with the main CMakeLists.txt with that line
 -DCMAKE_PREFIX_PATH="./ceres_lib;opencv" -DCMAKE_VERBOSE_MAKEFILE=ON
